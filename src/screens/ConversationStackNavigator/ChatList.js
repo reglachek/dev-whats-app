@@ -19,9 +19,7 @@ class ChatList extends Component {
 
     componentDidUpdate(lastProps) {
         if(this.props.activeChat !== lastProps.activeChat) {
-            this.props.navigation.navigate('Chat', {
-                setActiveChat: this.props.setActiveChat,
-            })
+            this.props.navigation.navigate('Chat')
         }
     }
 

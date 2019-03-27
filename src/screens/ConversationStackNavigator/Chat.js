@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, Platform, StyleSheet, TouchableHighlight, Image } from 'react-native'
-import { } from '../../actions/ChatActions'
+import { setActiveChat } from '../../actions/ChatActions'
 import { connect } from 'react-redux'
 
 const backImage = require('../../../node_modules/react-navigation-stack/src/views/assets/back-icon.png')
@@ -11,16 +11,28 @@ class Chat extends Component {
         title: 'Olá',
         headerLeft: () => (
             <TouchableHighlight
-                onPress={async () => {
-                    await navigation.state.params.setActiveChat('')
-                    navigation.goBack()
-                }}
+                onPress={navigation.getParam('handleBackButton')}
                 underlayColor={'transparent'}
             >
                 <Image source={backImage} style={styles.imageBack} />
             </TouchableHighlight>
         )
     })
+
+    handleBackButton = async () => {
+        const { setActiveChat, navigation } = this.props
+
+        await setActiveChat()
+
+        navigation.goBack()
+    }
+
+    componentDidMount() {
+        console.log(this.handleBackButton)
+        this.props.navigation.setParams({
+            handleBackButton: this.handleBackButton
+        })
+    }
 
     render() {
         return (
@@ -47,6 +59,6 @@ const mapStateToProps = state => ({
     uid: state.AuthReducer.uid,
 })
 
-const ConnectChat = connect(mapStateToProps, { })(Chat)
+const ConnectChat = connect(mapStateToProps, { setActiveChat })(Chat)
 
 export default ConnectChat
