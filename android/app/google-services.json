@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "416853318948",
+    "firebase_url": "https://devwhatsapp-ef790.firebaseio.com",
+    "project_id": "devwhatsapp-ef790",
+    "storage_bucket": "devwhatsapp-ef790.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416853318948:android:e8d12a3330cfab38",
+        "android_client_info": {
+          "package_name": "com.devwhatsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416853318948-2045g9d8gm19jk9hbkttkil845e021m7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtX8ouDbpztr9mHP2SDZTfyX3OnpwWXgc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
