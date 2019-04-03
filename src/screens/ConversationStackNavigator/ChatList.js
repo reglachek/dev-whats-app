@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, FlatList } from 'react-native'
+import { View, FlatList, ActivityIndicator } from 'react-native'
 import { connect } from 'react-redux'
 import { getChatList, setActiveChat } from '../../actions/ChatActions'
 
@@ -18,8 +18,10 @@ class ChatList extends Component {
     _keyExtractor = item => `item-key-${item.key}`
 
     componentDidUpdate(lastProps) {
-        if(this.props.activeChat !== lastProps.activeChat) {
-            this.props.navigation.navigate('Chat')
+        const { activeChat, navigation, activeChatOtherUserName } = this.props
+
+        if(activeChat !== lastProps.activeChat) {
+            navigation.navigate('Chat', { otherUserName: activeChatOtherUserName })
         }
     }
 
@@ -32,11 +34,13 @@ class ChatList extends Component {
     render() {
         return (
             <View>
-                <FlatList 
+                {!this.props.isLoading && <FlatList 
                     data={this.props.chatList}
                     renderItem={({item}) => <ChatItem data={item} onPress={this.handleChatItemClick} />}
                     keyExtractor={this._keyExtractor}
-                />
+                />}
+
+                {this.props.isLoading && <ActivityIndicator size='large' color='green' />}
             </View>
         )
     }
@@ -46,7 +50,9 @@ const mapStateToProps = state => {
     return {
         uid: state.AuthReducer.uid,
         chatList: state.ChatReducer.chatList,
-        activeChat: state.ChatReducer.activeChat
+        activeChat: state.ChatReducer.activeChat,
+        activeChatOtherUserName: state.ChatReducer.activeChatOtherUserName,
+        isLoading: state.ChatReducer.isLoading,
     }
 }
 
