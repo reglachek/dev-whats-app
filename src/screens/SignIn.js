@@ -11,6 +11,8 @@ import {
 import { connect } from 'react-redux'
 import { NavigationActions, StackActions } from 'react-navigation'
 
+import LoadingItem from '../components/LoadingItem'
+
 import {
     checkLogin,
     changeEmail,
@@ -66,8 +68,9 @@ class SignIn extends Component {
                     secureTextEntry
                 />
 
-                {this.props.isLoading && <ActivityIndicator size='large' color='green' />}
-                {!this.props.isLoading && <Button title='Sign Up' onPress={this.handleSingUp} />}
+                <LoadingItem visible={this.props.isLoading} />
+                
+                <Button title='Sign Up' onPress={this.handleSingUp} />
             </View>
         )
     }
