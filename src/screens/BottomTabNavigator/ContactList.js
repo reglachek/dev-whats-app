@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native'
+import { View, FlatList, StyleSheet, ActivityIndicator } from 'react-native'
 import { connect } from 'react-redux'
 
 import { getContactList, createChat } from '../../actions/ChatActions'
