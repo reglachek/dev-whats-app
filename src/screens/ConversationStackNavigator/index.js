@@ -11,8 +11,17 @@ const ConversationStackNavigator = createStackNavigator({
         screen: Chat
     }
 }, {
-    navigationOptions: {
-        tabBarLabel: 'Conversation'
+    navigationOptions: ({ navigation }) => {
+        let tabBarVisible = true
+
+        if(navigation.state.index > 0) {
+            tabBarVisible = false
+        }
+
+        return {
+            tabBarLabel: 'Conversation',
+            tabBarVisible
+        }
     }
 })
 
