@@ -2,17 +2,10 @@ import React, { Component } from 'react'
 import { View, StyleSheet, ActivityIndicator } from 'react-native'
 import { connect } from 'react-redux'
 import { StackActions, NavigationActions } from 'react-navigation'
-import firebase from 'react-native-firebase'
 
 import { checkLogin } from '../actions/AuthActions'
 
 class PreLoad extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {}
-    }
-    
     static navigationOptions = {
         header: null
     }
@@ -20,6 +13,7 @@ class PreLoad extends Component {
     componentDidUpdate(prevProps) {
 
         if(this.props.status !== prevProps.status) {
+            
             let routeName   
             
             switch(this.props.status) {
