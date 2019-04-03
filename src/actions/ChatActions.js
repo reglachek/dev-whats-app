@@ -63,12 +63,13 @@ export const createChat = (userUid, otherUserUid) => {
                 id: chatId,
                 otherUserName: snapshot.val().name
             })
+            .then(() => dispatch({
+                type: 'setActiveChat',
+                payload: { chatId }
+            }))
         })
         
-        dispatch({
-            type: 'setActiveChat',
-            payload: { chatId }
-        })
+        
     }
 }
 
@@ -78,6 +79,11 @@ export const setActiveChat = chatId => ({
 })
 
 export const getChatList = userUid => dispatch => {
+    dispatch({
+        type: 'isLoading',
+        payload: { isLoading: true }
+    })
+
     firebase.database().ref('users').child(userUid).child('chats')
     .on('value', snapshot => {
         let chats = []
@@ -91,9 +97,56 @@ export const getChatList = userUid => dispatch => {
 
         dispatch({
             type: 'setChatList',
-            payload: { chats }
+            payload: { chats, isLoading: false }
         })
     })
+}
+
+export const handleInputChange = message => ({
+    type: 'handleInputChange',
+    payload: { message }
+})
+
+export const sendMessage = (message, author, activeChat) => dispatch => {
+    let currentDate = ''
+    let date = new Date()
+
+    currentDate = `${date.getFullYear()}-`
+    currentDate += `${(date.getMonth() + 1)}-`
+    currentDate += `${date.getDate()} `
+    currentDate += `${date.getHours()}:`
+    currentDate += `${date.getMinutes()}:`
+    currentDate += `${date.getSeconds()}`
+
+    const msgId = firebase.database().ref('chats').child(activeChat).child('messages').push()
+
+    msgId.set({ currentDate, message, author })
+
+    dispatch({ type: 'preSendMessage' })
+}
+
+export const monitorChat = activeChat => dispatch => {
+    firebase.database().ref('chats').child(activeChat).child('messages')
+    .on('value', snapshot => {
+        let messages = []
+
+        snapshot.forEach(childItem => messages.push({
+            key: childItem.key,
+            currentDate: childItem.val().currentDate,
+            message: childItem.val().message,
+            author: childItem.val().author
+        }))
+
+        dispatch({
+            type: 'setActiveChatMessages',
+            payload: { messages }
+        })
+    })
+}
+
+export const monitorChatOff = activeChat => dispatch => {
+    firebase.database().ref('chats').child(activeChat).child('messages')
+    .off('value')
 }
 
 export const resetState = () => ({ type: 'resetState' })
