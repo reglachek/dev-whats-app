@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet } from 'react-native'
 
 export default class MessageItem extends Component {
     constructor(props) {
@@ -31,13 +31,13 @@ export default class MessageItem extends Component {
 
         /*
             Se tiver passado passado pelo if retorna o dia e os minutos,
-            se não retorna apenas a hora e minuto
+            se não, retorna apenas a hora e minuto
         */
         return newFormat
     }
 
     render() {
-        const { message, author } = this.props.data
+        const { msgType, msgContent, author } = this.props.data
 
         const dinamicContainer = author == this.props.authUserUid ? styles.authUserContainer : styles.otherUserContainer
 
@@ -45,7 +45,9 @@ export default class MessageItem extends Component {
 
         return (
             <View style={[styles.container, dinamicContainer]}>
-                <Text style={dinamicMessage}>{message}</Text>
+                {msgType == 'text' && <Text style={dinamicMessage}>{msgContent}</Text>}
+
+                {msgType == 'image' && <Image style={styles.image} source={{uri: msgContent}} />}
                 <Text style={styles.dateText}>{this.state.dateMsg}</Text>
             </View>
         )
@@ -78,4 +80,8 @@ const styles = StyleSheet.create({
         fontSize: 11,
         textAlign: 'right'
     },
+    image: {
+        width: 200,
+        height: 200
+    }
 })

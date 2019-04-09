@@ -1,8 +1,19 @@
 import React, { Component } from 'react'
-import { View, ImageBackground, TextInput, FlatList, StyleSheet, TouchableHighlight, Image } from 'react-native'
+import {
+    View, 
+    ImageBackground, 
+    TextInput, 
+    FlatList, 
+    StyleSheet, 
+    TouchableHighlight, 
+    Image
+} from 'react-native'
+import ImagePicker from 'react-native-image-picker'
+
 import {
     setActiveChat,
     sendMessage,
+    sendImage,
     handleInputChange,
     monitorChat,
     monitorChatOff
@@ -13,10 +24,19 @@ import MessageItem from '../../components/Chat/MessageItem'
 
 // Guarda imagens
 const backImage = require('../../../node_modules/react-navigation-stack/src/views/assets/back-icon.png')
-const sendImage = require('../../assets/img/send.png')
+const userImage = require('../../assets/img/send.png')
+const chooseImage = require('../../assets/img/new_image.png')
 const chatBackgroundImage = require('../../assets/img/chatBackground.png')
 
 class Chat extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            pct: 0,
+        }
+    }
+
     static navigationOptions = ({ navigation }) => ({
         title: navigation.getParam('otherUserName'),
         gesturesEnabled: true,
@@ -44,7 +64,30 @@ class Chat extends Component {
     sendMessage = () => {
         const { sendMessage, message, uid, activeChat } = this.props
 
-        sendMessage(message, uid, activeChat)
+        sendMessage('text', message, uid, activeChat)
+    }
+
+    handleChooseImage = () => {
+        const { sendImage, sendMessage, uid, activeChat } = this.props
+
+        const options = {
+            title: 'Selecione uma foto'
+        }
+        
+        ImagePicker.showImagePicker(options, image => {
+            if(image.uri) {
+                const uri = image.uri.replace('file://', '')
+
+                sendImage(uri, snapshot => {
+                    let pct = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+
+                    this.setState({ pct })
+                }, imgName => {
+                    this.setState({ pct: 0 })
+                    sendMessage('image', imgName, uid, activeChat)
+                })
+            }
+        })
     }
 
     // FlatList
@@ -91,7 +134,22 @@ class Chat extends Component {
                     onLayout={this._onLayout}
                 />
 
+                <View style={styles.imgTmpArea}>
+                    <View style={[
+                        {width: this.state.pct+'%'},
+                        styles.imgTmpBar
+                    ]}></View>
+                </View>
+
                 <View style={styles.sendArea}>
+                    <TouchableHighlight
+                        style={styles.buttonStyle}
+                        onPress={this.handleChooseImage}
+                        underlayColor='transparent'
+                    >
+                        <Image source={chooseImage} style={styles.buttonImage} />
+                    </TouchableHighlight>
+
                     <TextInput
                         style={styles.sendInput}
                         value={this.props.message}
@@ -99,11 +157,11 @@ class Chat extends Component {
                     />
 
                     <TouchableHighlight
-                        style={styles.sendButton}
-                        underlayColor='transparent'
+                        style={styles.buttonStyle}
                         onPress={this.sendMessage}
+                        underlayColor='transparent'
                     >
-                        <Image source={sendImage} style={styles.sendImage} />
+                        <Image source={userImage} style={styles.buttonImage} />
                     </TouchableHighlight>
                 </View>
             </ImageBackground>
@@ -121,6 +179,13 @@ const styles = StyleSheet.create({
         width: '100%', 
         height: '100%'
     },
+    imgTmpArea: {
+        height: 10
+    },
+    imgTmpBar: {
+        height: 10,
+        backgroundColor: '#FF0000'
+    },
     sendArea: {
         flexDirection: 'row',
         height: 50,
@@ -132,13 +197,13 @@ const styles = StyleSheet.create({
         borderBottomColor: 'black',
         borderBottomWidth: 1,
     },
-    sendButton: {
+    buttonStyle: {
         height: 50,
         width: 50,
         justifyContent: 'center',
         alignItems: 'center',
     },
-    sendImage: {
+    buttonImage: {
         height: 40,
         width: 40,
     }
@@ -154,6 +219,7 @@ const mapStateToProps = state => ({
 const ConnectChat = connect(mapStateToProps, {
     setActiveChat,
     sendMessage,
+    sendImage,
     handleInputChange,
     monitorChat,
     monitorChatOff

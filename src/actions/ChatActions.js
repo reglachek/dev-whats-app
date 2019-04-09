@@ -107,7 +107,7 @@ export const handleInputChange = message => ({
     payload: { message }
 })
 
-export const sendMessage = (message, author, activeChat) => dispatch => {
+export const sendMessage = (msgType, msgContent, author, activeChat) => dispatch => {
     let currentDate = ''
     let date = new Date()
 
@@ -120,9 +120,30 @@ export const sendMessage = (message, author, activeChat) => dispatch => {
 
     const msgId = firebase.database().ref('chats').child(activeChat).child('messages').push()
 
-    msgId.set({ currentDate, message, author })
-
+    switch(msgType) {
+        case 'text':
+            msgId.set({ msgType, currentDate, msgContent, author })
+        break
+        case 'image':
+            msgId.set({ msgType, currentDate, msgContent, author })
+        break
+    }
+    
     dispatch({ type: 'preSendMessage' })
+}
+
+export const sendImage = (img, progressCalback, successCalback) => dispatch => {
+    const tmpKey = firebase.database().ref('chats').push().key
+
+    const fbImage = firebase.storage().ref().child('images').child(tmpKey)
+
+    fbImage.put(img, { contentType: 'image/jpeg' })
+    .on('state_changed', 
+    progressCalback,
+    error => alert(error.code),
+    () => fbImage.getDownloadURL().then(url => {
+        successCalback(url)
+    }))
 }
 
 export const monitorChat = activeChat => dispatch => {
@@ -130,13 +151,29 @@ export const monitorChat = activeChat => dispatch => {
     .on('value', snapshot => {
         let messages = []
 
-        snapshot.forEach(childItem => messages.push({
-            key: childItem.key,
-            currentDate: childItem.val().currentDate,
-            message: childItem.val().message,
-            author: childItem.val().author
-        }))
-
+        snapshot.forEach(childItem => {
+            switch(childItem.val().msgType) {
+                case 'text':
+                    messages.push({
+                        key: childItem.key,
+                        currentDate: childItem.val().currentDate,
+                        msgContent: childItem.val().msgContent,
+                        author: childItem.val().author,
+                        msgType: childItem.val().msgType
+                    })
+                break
+                case 'image':
+                    messages.push({
+                        key: childItem.key,
+                        currentDate: childItem.val().currentDate,
+                        msgContent: childItem.val().msgContent,
+                        author: childItem.val().author,
+                        msgType: childItem.val().msgType
+                    })
+                break
+            }
+        })
+        
         dispatch({
             type: 'setActiveChatMessages',
             payload: { messages }
