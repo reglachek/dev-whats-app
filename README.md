@@ -1,5 +1,5 @@
 # Receita App
-Aplicativo simples para adição de receitas dos mais diversos tipos de comidas.
+Aplicativo baseado no WhatsApp, esta primeira versão teve foco apenas nas funcionalidades e não no design do aplicativo.
 
 ## Screenshots
 ![Alt Text](https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot7.png)
