@@ -1,4 +1,4 @@
-# Receita App
+# DevsApp
 Aplicativo baseado no WhatsApp, esta primeira versão teve foco apenas nas funcionalidades e não no design do aplicativo.
 
 ## Screenshots
