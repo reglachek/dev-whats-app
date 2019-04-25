@@ -2,15 +2,10 @@
 Aplicativo baseado no WhatsApp, esta primeira versão teve foco apenas nas funcionalidades e não no design do aplicativo.
 
 ## Screenshots
-<img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot7.png" width="300">
-<img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot8.png" width="300">
-<img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot9.png" width="300">
-<img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot.png" width="300">
-<img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot2.png" width="300">
-<img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot3.png" width="300">
-<img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot4.png" width="300">
-<img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot5.png" width="300">
-<img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot6.png" width="300">
+| <img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot7.png" width="300"> | <img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot8.png" width="300">  | <img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot9.png" width="300">  |  <img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot.png" width="300"> |
+|---|---|---|---|
+|  <img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot2.png" width="300"> | <img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot3.png" width="300">  | <img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot4.png" width="300"> | <img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot5.png" width="300"> |
+| <img src="https://github.com/reglachek/dev-whats-app/blob/master/src/assets/screenshots/screenshot6.png" width="300"> |   |   |   |
 
 ## As Tecnologias
 **React-Native** - http://facebook.github.io/react-native/
